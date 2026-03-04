@@ -69,6 +69,7 @@ public class ProductionOptimizerServiceTest {
         when(rawMaterialRepository.findAll()).thenReturn(List.of(steel));
 
         ProductionOptimizationDTO result = productionOptimizerService.optimize();
+        System.out.println(result);
         
         assertThat(result.suggestions()).isEmpty();
         assertThat(result.totalRevenue()).isEqualByComparingTo(BigDecimal.ZERO);
@@ -176,7 +177,7 @@ public class ProductionOptimizerServiceTest {
         when(rawMaterialRepository.findAll()).thenReturn(List.of(steel, plastic));
 
         ProductionOptimizationDTO result = productionOptimizerService.optimize();
-
+        System.out.println(result);
         
         assertThat(result.suggestions()).hasSize(1);
         assertThat(result.suggestions().get(0).quantity()).isEqualTo(5);

@@ -37,6 +37,7 @@ public class ProductionOptimizerService {
 
         ExpressionsBasedModel model = new ExpressionsBasedModel();
 
+        //variables
         Map<Long, Variable> variables = new LinkedHashMap<>();
         for (Product product : products) {
             int maxProducible = calculateProducibleQuantity(product, stock);
@@ -50,6 +51,7 @@ public class ProductionOptimizerService {
             variables.put(product.getId(), var);
         }
 
+        //constraints
         for (Map.Entry<Long, BigDecimal> entry : stock.entrySet()) {
             Long materialId = entry.getKey();
             BigDecimal available = entry.getValue();
@@ -66,7 +68,8 @@ public class ProductionOptimizerService {
                         .ifPresent(i -> constraint.set(var, i.getQuantity()));
             }
         }
-
+        
+        //objective function
         Expression objective = model.addExpression("total_revenue").weight(BigDecimal.ONE);
         for (Product product : products) {
             Variable var = variables.get(product.getId());
@@ -75,8 +78,10 @@ public class ProductionOptimizerService {
             }
         }
 
+        //maximize
         Optimisation.Result result = model.maximise();
 
+        
         List<ProductionSuggestionDTO> suggestions = new ArrayList<>();
         BigDecimal totalRevenue = BigDecimal.ZERO;
 
