@@ -68,8 +68,27 @@
     	<dependency>
       		<groupId>org.springframework.boot</groupId>
       		<artifactId>spring-boot-starter-data-jpa-test</artifactId>
-     		 <scope>test</scope>
+     		<scope>test</scope>
     	</dependency>
+    	
+    	<dependency>
+   			<groupId>org.ojalgo</groupId>
+    		<artifactId>ojalgo</artifactId>
+    		<version>53.0.0</version>
+		</dependency>
+		
+		<dependency>
+    		<groupId>org.mockito</groupId>
+    		<artifactId>mockito-core</artifactId>
+    		<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+   			<groupId>org.mockito</groupId>
+    		<artifactId>mockito-junit-jupiter</artifactId>
+    		<scope>test</scope>
+		</dependency>
+    	
 	</dependencies>
 
 	<build>

@@ -29,7 +29,7 @@ public class ProductService {
     }
 
     public ProductDTO create(ProductDTO dto) {
-        Product product = new Product(null, dto.name(), dto.price());
+        Product product = new Product(null, dto.name(), dto.price(), null);
         productRepository.save(product);
         return new ProductDTO(product);
     }
