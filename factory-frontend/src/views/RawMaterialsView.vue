@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div>
 
     <div class="view-header">
       <Button label="New Material" icon="pi pi-plus" @click="openCreate" />
@@ -9,7 +9,6 @@
 
     <DataTable :value="store.rawMaterials" :loading="store.loading"
                paginator :rows="10" stripedRows>
-      <Column field="id"            header="ID"    style="width:80px" />
       <Column field="name"          header="Name" />
       <Column field="quantity" header="Stock" />
       <Column header="Actions"      style="width:140px">
@@ -48,7 +47,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useRawMaterialStore } from '../stores/rawMaterialStore'
+import { useRawMaterialStore } from '../stores/rawMaterialsStore'
 import { useToast } from 'primevue/usetoast'
 import { useConfirm } from 'primevue/useconfirm'
 import type { RawMaterial, RawMaterialForm } from '../types'
