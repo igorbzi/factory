@@ -29,11 +29,12 @@ const router = useRouter()
 </script>
 
 <style scoped>
+
 .home-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: calc(100vh - 65px);
+  overflow: hidden;
 }
 
 .home-card {

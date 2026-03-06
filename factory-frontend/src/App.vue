@@ -27,7 +27,6 @@ const route = useRoute()
 
 .app-layout {
   display: flex;
-  height: 100vh;
 }
 
 .main-wrapper {
@@ -35,7 +34,6 @@ const route = useRoute()
   flex: 1;
   display: flex;
   flex-direction: column;
-  height: 100vh;
 }
 
 </style>

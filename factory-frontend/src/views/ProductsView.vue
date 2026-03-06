@@ -61,13 +61,13 @@
 
         <div v-for="(ing, idx) in form.rawMaterials" :key="idx" class="ingredient-row">
           <Select v-model="ing.rawMaterialId"
-                  :options="rawMaterialStore.rawMaterials"
-                  optionLabel="name"
-                  optionValue="id"
-                  placeholder="Select material"
-                  class="ingredient-select" />
+                :options="availableOptions(idx)"
+                optionLabel="name"
+                optionValue="id"
+                placeholder="Select material"
+                class="ingredient-select" />
           <InputNumber v-model="ing.quantity"
-                       :min="0.0001"
+                       :min="0.00"
                        :minFractionDigits="1"
                        placeholder="Qty"
                        class="ingredient-qty" />
@@ -149,7 +149,33 @@ function removeIngredient(idx: number): void {
   form.value.rawMaterials.splice(idx, 1)
 }
 
+function availableOptions(currentIdx: number) {
+  const selectedIds = form.value.rawMaterials
+    .filter((_, idx) => idx !== currentIdx)
+    .map(i => i.rawMaterialId)
+
+  return rawMaterialStore.rawMaterials.filter(m => !selectedIds.includes(m.id))
+}
+
 async function save(): Promise<void> {
+  
+    if (!form.value.name) {
+    toast.add({ severity: 'warn', summary: 'Validation', detail: 'Name is required.', life: 3000 })
+    return
+  }
+  if (!form.value.price || form.value.price <= 0) {
+    toast.add({ severity: 'warn', summary: 'Validation', detail: 'Price must be greater than zero.', life: 3000 })
+    return
+  }
+  if (form.value.rawMaterials.length === 0) {
+    toast.add({ severity: 'warn', summary: 'Validation', detail: 'Add at least one ingredient.', life: 3000 })
+    return
+  }
+  if (form.value.rawMaterials.some(i => !i.quantity || i.quantity <= 0)) {
+    toast.add({ severity: 'warn', summary: 'Validation', detail: 'All ingredients must have a quantity greater than zero.', life: 3000 })
+    return
+  }
+
   saving.value = true
   try {
     if (editingId.value) {

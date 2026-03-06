@@ -1,12 +1,15 @@
 package com.projedata.factory.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.projedata.factory.dto.ProductDTO;
+import com.projedata.factory.dto.ProductRawMaterialRequestDTO;
 import com.projedata.factory.dto.ProductRequestDTO;
 import com.projedata.factory.entity.Product;
 import com.projedata.factory.entity.ProductRawMaterial;
@@ -39,8 +42,8 @@ public class ProductService {
     }
     
     public ProductDTO create(ProductRequestDTO dto) {
+    	validateDuplicateIngredients(dto.rawMaterials());
         Product product = new Product(null, dto.name(), dto.price(), new ArrayList<>());
-
         List<ProductRawMaterial> ingredients = dto.rawMaterials().stream()
                 .map(i -> {
                     RawMaterial rawMaterial = rawMaterialRepository.findById(i.rawMaterialId())
@@ -55,6 +58,7 @@ public class ProductService {
     }
 
     public ProductDTO update(Long id, ProductRequestDTO dto) {
+    	validateDuplicateIngredients(dto.rawMaterials());
         Product product = findOrThrow(id);
         product.setName(dto.name());
         product.setPrice(dto.price());
@@ -81,5 +85,14 @@ public class ProductService {
 	private Product findOrThrow(Long id) {
 	    return productRepository.findByIdWithIngredients(id)
 	            .orElseThrow(() -> new ResourceNotFoundException("Product", id));
+	}
+	
+	private void validateDuplicateIngredients(List<ProductRawMaterialRequestDTO> ingredients) {
+	    Set<Long> seen = new HashSet<>();
+	    ingredients.forEach(i -> {
+	        if (!seen.add(i.rawMaterialId())) {
+	            throw new IllegalArgumentException("Duplicate raw material with id: " + i.rawMaterialId());
+	        }
+	    });
 	}
 }

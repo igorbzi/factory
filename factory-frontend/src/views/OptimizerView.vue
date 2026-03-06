@@ -62,7 +62,7 @@
             <template #body="{ data }: { data: ProductionSuggestion }">
               <div class="progress-cell">
                 <ProgressBar :value="revenuePercent(data.totalRevenue)"
-                             style="height:8px; width:120px" />
+                             style="height:8px; width:120px" :showValue="false" />
                 <span>{{ revenuePercent(data.totalRevenue).toFixed(1) }}%</span>
               </div>
             </template>
@@ -106,8 +106,6 @@ const revenuePercent = (revenue: number): number => {
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
-  background: #fff;
-  border: 1px solid #e2e8f0;
   border-radius: 10px;
   padding: 1.25rem 1.5rem;
   margin-bottom: 1.5rem;
@@ -115,7 +113,6 @@ const revenuePercent = (revenue: number): number => {
 }
 
 .optimizer-description p {
-  color: #64748b;
   line-height: 1.6;
   max-width: 600px;
 }

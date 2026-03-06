@@ -1,9 +1,10 @@
 <template>
   <aside class="sidebar">
-    <div class="sidebar-logo">
+
+    <router-link to="/" class="sidebar-logo">
       <i class="pi pi-cog" />
       <span>FactoryOpt</span>
-    </div>
+    </router-link>
 
     <nav class="sidebar-nav">
       <router-link to="/raw-materials" class="nav-item">
@@ -44,10 +45,17 @@
   display: flex;
   align-items: center;
   gap: .75rem;
-  padding: 0 .5rem;
+  padding: .5rem;
   color: #fff;
   font-size: 1.2rem;
   font-weight: 700;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background .15s;
+}
+
+.sidebar-logo:hover {
+  background: #334155;
 }
 
 .sidebar-logo i { font-size: 1.4rem; color: #2563eb; }
