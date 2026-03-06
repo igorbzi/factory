@@ -1,10 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import HomeView from '../views/HomeView.vue'
 import RawMaterialsView from '../views/RawMaterialView.vue'
 
 export default createRouter({
   history: createWebHistory(),
   routes: [
-    { path: '/', redirect: '/raw-materials' },
-    { path: '/raw-materials', component: RawMaterialsView, meta: { title: 'Raw Materials' } }
+    { path: '/',              component: HomeView,          meta: { title: 'Home' } },
+    { path: '/raw-materials', component: RawMaterialsView,  meta: { title: 'Raw Materials' } }
   ]
 })
