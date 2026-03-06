@@ -1,5 +1,7 @@
 <template>
-  <div>
+    <div class="container">
+    <h2 class="page-title">Raw Materials</h2>
+
     <div class="view-header">
       <Button label="New Material" icon="pi pi-plus" @click="openCreate" />
     </div>
@@ -8,10 +10,11 @@
 
     <DataTable :value="store.rawMaterials" :loading="store.loading"
                paginator :rows="10" stripedRows>
-      <Column field="id"             header="ID"    style="width:80px" />
-      <Column field="name"           header="Name" />
-      <Column field="stockQuantity"  header="Stock" />
-      <Column header="Actions" style="width:140px">
+      <Column field="id"            header="ID"    style="width:80px" />
+      <Column field="name"          header="Name" />
+      <Column field="stockQuantity" header="Stock" />
+      <Column field="unitOfMeasure" header="Unit" />
+      <Column header="Actions"      style="width:140px">
         <template #body="{ data }: { data: RawMaterial }">
           <div class="action-buttons">
             <Button icon="pi pi-pencil" text rounded severity="info"  @click="openEdit(data)" />
@@ -124,6 +127,8 @@ function confirmDelete(material: RawMaterial): void {
 </script>
 
 <style scoped>
+.container { max-width: 80%; margin: 0 auto; padding: 2rem; }
+.page-title { font-size: 1.5rem; font-weight: 600; color: #ffffff; margin-bottom: 1.5rem; }
 .view-header { display: flex; justify-content: flex-end; margin-bottom: 1rem; }
 .form-grid { display: flex; flex-direction: column; gap: 1rem; padding-top: .5rem; }
 .field { display: flex; flex-direction: column; gap: .4rem; }

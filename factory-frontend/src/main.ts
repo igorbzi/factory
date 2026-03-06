@@ -6,6 +6,8 @@ import ConfirmationService from 'primevue/confirmationservice'
 import Aura from '@primevue/themes/aura'
 import router from './router'
 import App from './App.vue'
+import 'primeicons/primeicons.css'
+import './style.css'
 
 const app = createApp(App)
 
