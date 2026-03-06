@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.projedata.factory.dto.ProductDTO;
+import com.projedata.factory.dto.ProductResponseDTO;
 import com.projedata.factory.dto.ProductRequestDTO;
 import com.projedata.factory.service.ProductService;
 
@@ -27,22 +27,22 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    public ResponseEntity<List<ProductDTO>> getAll() {
+    public ResponseEntity<List<ProductResponseDTO>> getAll() {
         return ResponseEntity.ok(productService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDTO> getById(@PathVariable Long id) {
+    public ResponseEntity<ProductResponseDTO> getById(@PathVariable Long id) {
         return ResponseEntity.ok(productService.getById(id));
     }
 
     @PostMapping
-    public ResponseEntity<ProductDTO> create(@RequestBody @Validated ProductRequestDTO dto) {
+    public ResponseEntity<ProductResponseDTO> create(@RequestBody @Validated ProductRequestDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.create(dto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @RequestBody @Validated ProductRequestDTO dto) {
+    public ResponseEntity<ProductResponseDTO> update(@PathVariable Long id, @RequestBody @Validated ProductRequestDTO dto) {
         return ResponseEntity.ok(productService.update(id, dto));
     }
 

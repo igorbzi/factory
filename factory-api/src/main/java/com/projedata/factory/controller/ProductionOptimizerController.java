@@ -11,7 +11,7 @@ import com.projedata.factory.service.ProductionOptimizerService;
 
 @Controller
 @RequestMapping("/production")
-public class ProductionController {
+public class ProductionOptimizerController {
 
     @Autowired
     private ProductionOptimizerService productionOptimizerService;

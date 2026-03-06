@@ -8,7 +8,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.projedata.factory.dto.ProductDTO;
+import com.projedata.factory.dto.ProductResponseDTO;
 import com.projedata.factory.dto.ProductRawMaterialRequestDTO;
 import com.projedata.factory.dto.ProductRequestDTO;
 import com.projedata.factory.entity.Product;
@@ -29,19 +29,19 @@ public class ProductService {
     @Autowired
     private RawMaterialRepository rawMaterialRepository;
 
-    public List<ProductDTO> getAll() {
+    public List<ProductResponseDTO> getAll() {
         return productRepository.findAllWithIngredients().stream()
-                .map(ProductDTO::new)
+                .map(ProductResponseDTO::new)
                 .toList();
     }
 
-    public ProductDTO getById(Long id) {
+    public ProductResponseDTO getById(Long id) {
         Product product = productRepository.findByIdWithIngredients(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product", id));
-        return new ProductDTO(product);
+        return new ProductResponseDTO(product);
     }
     
-    public ProductDTO create(ProductRequestDTO dto) {
+    public ProductResponseDTO create(ProductRequestDTO dto) {
     	validateDuplicateIngredients(dto.rawMaterials());
         Product product = new Product(null, dto.name(), dto.price(), new ArrayList<>());
         List<ProductRawMaterial> ingredients = dto.rawMaterials().stream()
@@ -54,10 +54,10 @@ public class ProductService {
 
         product.getRawMaterials().addAll(ingredients);
         productRepository.save(product);
-        return new ProductDTO(product);
+        return new ProductResponseDTO(product);
     }
 
-    public ProductDTO update(Long id, ProductRequestDTO dto) {
+    public ProductResponseDTO update(Long id, ProductRequestDTO dto) {
     	validateDuplicateIngredients(dto.rawMaterials());
         Product product = findOrThrow(id);
         product.setName(dto.name());
@@ -74,7 +74,7 @@ public class ProductService {
 
         product.getRawMaterials().addAll(ingredients);
         productRepository.save(product);
-        return new ProductDTO(product);
+        return new ProductResponseDTO(product);
     }
     
     public void delete(Long id) {

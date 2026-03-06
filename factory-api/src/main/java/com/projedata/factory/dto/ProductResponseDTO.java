@@ -6,9 +6,9 @@ import java.util.List;
 import com.projedata.factory.entity.Product;
 
 
-public record ProductDTO(Long id, String name, BigDecimal price, List<ProductRawMaterialResponseDTO> rawMaterials) {
+public record ProductResponseDTO(Long id, String name, BigDecimal price, List<ProductRawMaterialResponseDTO> rawMaterials) {
 
-    public ProductDTO(Product product) {
+    public ProductResponseDTO(Product product) {
         this(
             product.getId(),
             product.getName(),
