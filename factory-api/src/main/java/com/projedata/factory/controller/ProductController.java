@@ -16,10 +16,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.projedata.factory.dto.ProductDTO;
+import com.projedata.factory.dto.ProductRequestDTO;
 import com.projedata.factory.service.ProductService;
 
 @Controller
-@RequestMapping("/product")
+@RequestMapping("/products")
 public class ProductController {
 	
     @Autowired
@@ -36,13 +37,12 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductDTO> create(@RequestBody @Validated ProductDTO dto) {
-        ProductDTO created = productService.create(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    public ResponseEntity<ProductDTO> create(@RequestBody @Validated ProductRequestDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(productService.create(dto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @RequestBody @Validated ProductDTO dto) {
+    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @RequestBody @Validated ProductRequestDTO dto) {
         return ResponseEntity.ok(productService.update(id, dto));
     }
 

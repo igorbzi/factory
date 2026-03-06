@@ -1,11 +1,14 @@
 package com.projedata.factory.entity;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
 
@@ -20,6 +23,9 @@ public class RawMaterial {
 	private String name;
 	
 	private BigDecimal quantity;
+	
+	@OneToMany(mappedBy = "rawMaterial")
+    private List<ProductRawMaterial> productRawMaterials = new ArrayList<>();
 
 	public RawMaterial() {}
 	
@@ -49,5 +55,8 @@ public class RawMaterial {
 		this.quantity = quantity;
 	}
 	
+	public List<ProductRawMaterial> getProductRawMaterials() { 
+		 return productRawMaterials; 
+	}
 
 }

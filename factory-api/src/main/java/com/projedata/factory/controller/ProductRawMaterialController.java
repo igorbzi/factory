@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.projedata.factory.dto.ProductRawMaterialDTO;
+import com.projedata.factory.dto.ProductRawMaterialResponseDTO;
+import com.projedata.factory.dto.ProductRawMaterialRequestDTO;
 import com.projedata.factory.service.ProductRawMaterialService;
 
 @Controller
@@ -26,18 +27,19 @@ public class ProductRawMaterialController {
     private ProductRawMaterialService productRawMaterialService;
 
     @GetMapping("/product/{productId}")
-    public ResponseEntity<List<ProductRawMaterialDTO>> getByProduct(@PathVariable Long productId) {
+    public ResponseEntity<List<ProductRawMaterialResponseDTO>> getByProduct(@PathVariable Long productId) {
         return ResponseEntity.ok(productRawMaterialService.getByProduct(productId));
     }
 
     @PostMapping
-    public ResponseEntity<ProductRawMaterialDTO> create(@RequestBody @Validated ProductRawMaterialDTO dto) {
-        ProductRawMaterialDTO created = productRawMaterialService.create(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    public ResponseEntity<ProductRawMaterialResponseDTO> create(@RequestBody @Validated ProductRawMaterialRequestDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(productRawMaterialService.create(dto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductRawMaterialDTO> update(@PathVariable Long id, @RequestBody @Validated ProductRawMaterialDTO dto) {
+    public ResponseEntity<ProductRawMaterialResponseDTO> update(
+            @PathVariable Long id,
+            @RequestBody @Validated ProductRawMaterialRequestDTO dto) {
         return ResponseEntity.ok(productRawMaterialService.update(id, dto));
     }
 

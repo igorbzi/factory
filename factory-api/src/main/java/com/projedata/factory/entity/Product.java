@@ -30,12 +30,12 @@ public class Product {
 
 	public Product() {}
 	
-	public Product(Long id, String name, BigDecimal price, List<ProductRawMaterial> rawMaterials) {
-	    this.id = id;
-	    this.name = name;
-	    this.price = price;
-	    this.rawMaterials = rawMaterials;
-	}
+    public Product(Long id, String name, BigDecimal price, List<ProductRawMaterial> rawMaterials) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.rawMaterials = rawMaterials != null ? rawMaterials : new ArrayList<>();
+    }
 	
 	public Long getId() {
 		return id;

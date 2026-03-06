@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.projedata.factory.dto.RawMaterialDTO;
 import com.projedata.factory.entity.RawMaterial;
+import com.projedata.factory.exception.ResourceInUseException;
+import com.projedata.factory.exception.ResourceNotFoundException;
 import com.projedata.factory.repository.RawMaterialRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -24,10 +26,9 @@ public class RawMaterialService {
     }
 
     public RawMaterialDTO getById(Long id) {
-        RawMaterial rawMaterial = findOrThrow(id);
-        return new RawMaterialDTO(rawMaterial);
+        return new RawMaterialDTO(findOrThrow(id));
     }
-
+    
     public RawMaterialDTO create(RawMaterialDTO dto) {
         RawMaterial rawMaterial = new RawMaterial(null, dto.name(), dto.quantity());
         rawMaterialRepository.save(rawMaterial);
@@ -43,12 +44,16 @@ public class RawMaterialService {
     }
 
     public void delete(Long id) {
-        findOrThrow(id);
-        rawMaterialRepository.deleteById(id);
+        RawMaterial rawMaterial = findOrThrow(id);
+        if (!rawMaterial.getProductRawMaterials().isEmpty()) {
+            throw new ResourceInUseException("Raw material '" + rawMaterial.getName() + "'", "products");
+        }
+        rawMaterialRepository.delete(rawMaterial);
     }
+
 
     private RawMaterial findOrThrow(Long id) {
         return rawMaterialRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Raw material not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Raw material", id));
     }
 }
