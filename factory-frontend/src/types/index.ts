@@ -32,3 +32,16 @@ export interface ProductForm {
   price: number
   rawMaterials: ProductIngredientForm[]
 }
+
+export interface ProductionSuggestion {
+  productId: number
+  productName: string
+  unitPrice: number
+  quantity: number
+  totalRevenue: number
+}
+
+export interface ProductionPlan {
+  suggestions: ProductionSuggestion[]
+  totalRevenue: number
+}

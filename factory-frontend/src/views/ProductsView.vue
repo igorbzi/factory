@@ -8,7 +8,7 @@
     <Message v-if="store.error" severity="error">{{ store.error }}</Message>
 
     <DataTable :value="store.products" :loading="store.loading"
-               paginator :rows="10" stripedRows>
+      paginator :rows="10" :rowsPerPageOptions="[10, 25, 50]" stripedRows>
       <Column field="name"  header="Name" />
       <Column field="price" header="Price">
         <template #body="{ data }: { data: Product }">

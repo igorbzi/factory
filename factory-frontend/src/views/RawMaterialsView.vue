@@ -7,8 +7,8 @@
 
     <Message v-if="store.error" severity="error">{{ store.error }}</Message>
 
-    <DataTable :value="store.rawMaterials" :loading="store.loading"
-               paginator :rows="10" stripedRows>
+      <DataTable :value="store.rawMaterials" :loading="store.loading"
+           paginator :rows="10" :rowsPerPageOptions="[10, 25, 50]" stripedRows>
       <Column field="name"          header="Name" />
       <Column field="quantity" header="Stock" />
       <Column header="Actions"      style="width:140px">
@@ -41,7 +41,6 @@
       </template>
     </Dialog>
 
-    <ConfirmDialog />
   </div>
 </template>
 
@@ -58,7 +57,6 @@ import Dialog from 'primevue/dialog'
 import InputText from 'primevue/inputtext'
 import InputNumber from 'primevue/inputnumber'
 import Message from 'primevue/message'
-import ConfirmDialog from 'primevue/confirmdialog'
 
 const store   = useRawMaterialStore()
 const toast   = useToast()
