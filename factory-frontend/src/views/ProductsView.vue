@@ -19,8 +19,8 @@
         <template #body="{ data }: { data: Product }">
           <div class="tag-list">
             <Tag v-for="i in data.rawMaterials" :key="i.id"
-                 :value="`${i.rawMaterial.name}: ${i.quantity}`"
-                 severity="secondary" />
+                :value="`${i.rawMaterial.name}: ${i.quantity} ${i.rawMaterial.unitOfMeasure}`"
+                severity="secondary" />
           </div>
         </template>
       </Column>
@@ -61,16 +61,17 @@
 
         <div v-for="(ing, idx) in form.rawMaterials" :key="idx" class="ingredient-row">
           <Select v-model="ing.rawMaterialId"
-                :options="availableOptions(idx)"
-                optionLabel="name"
-                optionValue="id"
-                placeholder="Select material"
-                class="ingredient-select" />
+                  :options="availableOptions(idx)"
+                  optionLabel="name"
+                  optionValue="id"
+                  placeholder="Select material"
+                  class="ingredient-select" />
           <InputNumber v-model="ing.quantity"
-                       :min="0.00"
-                       :minFractionDigits="1"
-                       placeholder="Qty"
-                       class="ingredient-qty" />
+                      :min="0.0001"
+                      :minFractionDigits="1"
+                      placeholder="Qty"
+                      class="ingredient-qty" />
+          <span class="ingredient-unit">{{ getUnit(ing.rawMaterialId) }}</span>
           <Button icon="pi pi-times" text rounded severity="danger"
                   @click="removeIngredient(idx)" />
         </div>
@@ -157,6 +158,12 @@ function availableOptions(currentIdx: number) {
   return rawMaterialStore.rawMaterials.filter(m => !selectedIds.includes(m.id))
 }
 
+function getUnit(rawMaterialId: number | null): string {
+  if (!rawMaterialId) return ''
+  const material = rawMaterialStore.rawMaterials.find(m => m.id === rawMaterialId)
+  return material?.unitOfMeasure ?? ''
+}
+
 async function save(): Promise<void> {
   
     if (!form.value.name) {
@@ -214,10 +221,38 @@ function confirmDelete(product: Product): void {
 </script>
 
 <style scoped>
-.tag-list { display: flex; flex-wrap: wrap; gap: .35rem; }
-.view-header { display: flex; justify-content: flex-end; margin-bottom: 1rem; }
-.ingredients-header { display: flex; align-items: center; justify-content: space-between; }
-.ingredient-row { display: flex; align-items: center; gap: .75rem; }
+
+.tag-list { 
+  display: flex; 
+  flex-wrap: wrap;
+  gap: .35rem; 
+}
+.view-header { 
+  display: flex; 
+  justify-content: flex-end; 
+  margin-bottom: 1rem; 
+}
+
+.ingredients-header { 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+}
+
+.ingredient-row { 
+  display: flex; 
+  align-items: center; 
+  gap: .75rem; 
+}
+
 .ingredient-select { flex: 2; }
+
 .ingredient-qty { flex: 1; }
+
+.ingredient-unit {
+  font-size: .85rem;
+  font-weight: 600;
+  color: #64748b;
+  min-width: 32px;
+}
 </style>

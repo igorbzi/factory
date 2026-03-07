@@ -21,6 +21,7 @@ import com.projedata.factory.dto.ProductionSuggestionDTO;
 import com.projedata.factory.entity.Product;
 import com.projedata.factory.entity.ProductRawMaterial;
 import com.projedata.factory.entity.RawMaterial;
+import com.projedata.factory.enumerators.MeasurementUnit;
 import com.projedata.factory.repository.ProductRepository;
 import com.projedata.factory.repository.RawMaterialRepository;
 
@@ -41,8 +42,8 @@ public class ProductionOptimizerServiceTest {
 
     @BeforeEach
     void setUp() {
-        steel = new RawMaterial(1L, "Steel", new BigDecimal("100"));
-        plastic = new RawMaterial(2L, "Plastic", new BigDecimal("50"));
+        steel   = new RawMaterial(1L, "Steel",   new BigDecimal("100"), MeasurementUnit.G);
+        plastic = new RawMaterial(2L, "Plastic", new BigDecimal("50"),  MeasurementUnit.G);
     }
 
     @Test
@@ -60,7 +61,7 @@ public class ProductionOptimizerServiceTest {
     @Test
     @DisplayName("Should return empty plan when stock is insufficient for any product")
     void optimize_insufficientStock_returnsEmptyPlan() {
-        steel = new RawMaterial(1L, "Steel", new BigDecimal("0"));
+        steel = new RawMaterial(1L, "Steel", new BigDecimal("0"), MeasurementUnit.G);
 
         Product product = buildProduct(1L, "Chair", new BigDecimal("200"),
                 buildIngredient(steel, new BigDecimal("10")));
@@ -131,7 +132,7 @@ public class ProductionOptimizerServiceTest {
     @Test
     @DisplayName("Should produce both products when stock allows")
     void optimize_enoughStockForBoth_returnsBothProducts() {
-        steel = new RawMaterial(1L, "Steel", new BigDecimal("100"));
+        steel = new RawMaterial(1L, "Steel", new BigDecimal("100"), MeasurementUnit.G);
 
         Product chair = buildProduct(1L, "Chair", new BigDecimal("100"),
                 buildIngredient(steel, new BigDecimal("17")));
@@ -149,7 +150,7 @@ public class ProductionOptimizerServiceTest {
     @Test
     @DisplayName("Should calculate total revenue correctly")
     void optimize_multipleSuggestions_totalRevenueIsCorrect() {
-        steel = new RawMaterial(1L, "Steel", new BigDecimal("200"));
+        steel = new RawMaterial(1L, "Steel", new BigDecimal("200"), MeasurementUnit.G);
 
         Product chair = buildProduct(1L, "Chair", new BigDecimal("200"),
                 buildIngredient(steel, new BigDecimal("50")));
@@ -207,8 +208,8 @@ public class ProductionOptimizerServiceTest {
     @DisplayName("Should produce both products when two raw materials allow")
     void optimize_twoProductsTwoMaterials_producesBothWhenStockAllows() {
 
-        steel = new RawMaterial(1L, "Steel", new BigDecimal("200"));
-        plastic = new RawMaterial(2L, "Plastic", new BigDecimal("50"));
+        steel = new RawMaterial(1L, "Steel", new BigDecimal("200"), MeasurementUnit.G);
+        plastic = new RawMaterial(2L, "Plastic", new BigDecimal("50"), MeasurementUnit.G);
 
         Product chair = buildProduct(1L, "Chair", new BigDecimal("200"),
                 buildIngredient(steel, new BigDecimal("10")),
@@ -229,8 +230,8 @@ public class ProductionOptimizerServiceTest {
     @Test
     @DisplayName("Should return empty when both materials are insufficient")
     void optimize_twoRawMaterials_bothInsufficient_returnsEmpty() {
-        steel = new RawMaterial(1L, "Steel", new BigDecimal("5"));
-        plastic = new RawMaterial(2L, "Plastic", new BigDecimal("2"));
+        steel = new RawMaterial(1L, "Steel", new BigDecimal("5"), MeasurementUnit.G);
+        plastic = new RawMaterial(2L, "Plastic", new BigDecimal("2"), MeasurementUnit.G);
 
         Product chair = buildProduct(1L, "Chair", new BigDecimal("200"),
                 buildIngredient(steel, new BigDecimal("10")),

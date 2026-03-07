@@ -4,7 +4,11 @@ import java.math.BigDecimal;
 
 import com.projedata.factory.entity.ProductRawMaterial;
 
-public record ProductRawMaterialResponseDTO(Long id, RawMaterialDTO rawMaterial, BigDecimal quantity) {
+public record ProductRawMaterialResponseDTO(
+		Long id, 
+		RawMaterialDTO rawMaterial, 
+		BigDecimal quantity
+		) {
 
     public ProductRawMaterialResponseDTO(ProductRawMaterial entity) {
         this(
@@ -12,7 +16,8 @@ public record ProductRawMaterialResponseDTO(Long id, RawMaterialDTO rawMaterial,
             new RawMaterialDTO(
                 entity.getRawMaterial().getId(),
                 entity.getRawMaterial().getName(),
-                entity.getRawMaterial().getQuantity()
+                entity.getRawMaterial().getQuantity(),
+                entity.getRawMaterial().getMeasurementUnit()
             ),
             entity.getQuantity()
         );

@@ -1,7 +1,12 @@
 import axios from 'axios'
-import type { RawMaterial, RawMaterialForm } from '../types'
-import type { Product, ProductForm } from '../types'
-import type { ProductionPlan } from '../types'
+import type { MeasurementUnit, 
+  RawMaterial, 
+  RawMaterialForm, 
+  Product, 
+  ProductForm, 
+  ProductionPlan  
+} from '../types'
+
 
 const api = axios.create({
   baseURL: 'http://localhost:8080',
@@ -24,4 +29,8 @@ export const productService = {
 
 export const optimizerService = {
   optimize: () => api.get<ProductionPlan>('/production/optimize')
+}
+
+export const measurementUnitService = {
+  findAll: () => api.get<MeasurementUnit[]>('/measurement-units')
 }

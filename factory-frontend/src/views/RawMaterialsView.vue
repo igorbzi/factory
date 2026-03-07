@@ -10,7 +10,8 @@
       <DataTable :value="store.rawMaterials" :loading="store.loading"
            paginator :rows="10" :rowsPerPageOptions="[10, 25, 50]" stripedRows>
       <Column field="name"          header="Name" />
-      <Column field="quantity" header="Stock" />
+      <Column field="quantity"      header="Stock" />
+      <Column field="unitOfMeasure" header="Unit" />
       <Column header="Actions"      style="width:140px">
         <template #body="{ data }: { data: RawMaterial }">
           <div class="action-buttons">
@@ -34,6 +35,15 @@
           <InputNumber v-model="form.quantity" :min="0"
                        :minFractionDigits="0" :maxFractionDigits="4" fluid />
         </div>
+          <div class="field">
+            <label>Unit of Measure *</label>
+            <!-- <pre>{{ unitStore.units }}</pre> -->
+            <Select v-model="form.unitOfMeasure"
+                    :options="units"
+                    optionLabel="description"
+                    optionValue="name"
+                    placeholder="Select unit" fluid />
+          </div>
       </div>
       <template #footer>
         <Button label="Cancel" text @click="showDialog = false" />
@@ -45,8 +55,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRawMaterialStore } from '../stores/rawMaterialsStore'
+import { useMeasurementUnitStore } from '../stores/measurementUnitsStore'
 import { useToast } from 'primevue/usetoast'
 import { useConfirm } from 'primevue/useconfirm'
 import type { RawMaterial, RawMaterialForm } from '../types'
@@ -57,29 +68,38 @@ import Dialog from 'primevue/dialog'
 import InputText from 'primevue/inputtext'
 import InputNumber from 'primevue/inputnumber'
 import Message from 'primevue/message'
+import Select from 'primevue/select'
 
 const store   = useRawMaterialStore()
+const unitStore = useMeasurementUnitStore()
 const toast   = useToast()
 const confirm = useConfirm()
+
+const units = computed(() => unitStore.units)
 
 const showDialog = ref<boolean>(false)
 const editingId  = ref<number | null>(null)
 const saving     = ref<boolean>(false)
 
-const emptyForm = (): RawMaterialForm => ({ name: '', quantity: 0})
+const emptyForm = (): RawMaterialForm => ({ name: '', quantity: 0, unitOfMeasure: ''})
 const form = ref<RawMaterialForm>(emptyForm())
 
-onMounted(() => store.fetchAll())
+onMounted(async () => {
+  await store.fetchAll()
+  await unitStore.fetchAll()
+})
 
-function openCreate(): void {
+async function openCreate(): Promise<void> {
+  await unitStore.fetchAll()
   editingId.value  = null
   form.value       = emptyForm()
   showDialog.value = true
 }
 
-function openEdit(material: RawMaterial): void {
+async function openEdit(material: RawMaterial): Promise<void> {
+  await unitStore.fetchAll()
   editingId.value  = material.id
-  form.value       = { name: material.name, quantity: material.quantity }
+  form.value       = { name: material.name, quantity: material.quantity, unitOfMeasure: material.unitOfMeasure }
   showDialog.value = true
 }
 

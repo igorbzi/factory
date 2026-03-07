@@ -10,7 +10,8 @@ import jakarta.validation.constraints.Positive;
 public record ProductRawMaterialRequestDTO(
 		@NotNull Long rawMaterialId, 
 		@NotNull Long productId, 
-		@NotNull @Positive BigDecimal quantity) {
+		@NotNull @Positive BigDecimal quantity
+		) {
 	
     public ProductRawMaterialRequestDTO(ProductRawMaterial prm) {
         this(

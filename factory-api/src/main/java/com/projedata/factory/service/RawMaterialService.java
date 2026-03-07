@@ -30,7 +30,7 @@ public class RawMaterialService {
     }
     
     public RawMaterialDTO create(RawMaterialDTO dto) {
-        RawMaterial rawMaterial = new RawMaterial(null, dto.name(), dto.quantity());
+        RawMaterial rawMaterial = new RawMaterial(null, dto.name(), dto.quantity(), dto.unitOfMeasure());
         rawMaterialRepository.save(rawMaterial);
         return new RawMaterialDTO(rawMaterial);
     }
@@ -39,6 +39,7 @@ public class RawMaterialService {
         RawMaterial rawMaterial = findOrThrow(id);
         rawMaterial.setName(dto.name());
         rawMaterial.setQuantity(dto.quantity());
+        rawMaterial.setMeasurementUnit(dto.unitOfMeasure());
         rawMaterialRepository.save(rawMaterial);
         return new RawMaterialDTO(rawMaterial);
     }

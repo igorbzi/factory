@@ -2,11 +2,18 @@ export interface RawMaterial {
   id: number
   name: string
   quantity: number
+  unitOfMeasure: string
 }
 
 export interface RawMaterialForm {
   name: string
   quantity: number
+  unitOfMeasure: string
+}
+
+export interface MeasurementUnit {
+  name: string
+  description: string
 }
 
 export interface ProductIngredient {

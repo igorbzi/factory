@@ -4,7 +4,12 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.projedata.factory.enumerators.MeasurementUnit;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,15 +29,20 @@ public class RawMaterial {
 	
 	private BigDecimal quantity;
 	
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+	private MeasurementUnit unitOfMeasure;
+	
 	@OneToMany(mappedBy = "rawMaterial")
     private List<ProductRawMaterial> productRawMaterials = new ArrayList<>();
 
 	public RawMaterial() {}
 	
-	public RawMaterial(Long id, String name, BigDecimal quantity) {
+	public RawMaterial(Long id, String name, BigDecimal quantity, MeasurementUnit unitOfMeasure) {
 		this.id = id;
 		this.name = name;
 		this.quantity = quantity;
+		this.unitOfMeasure = unitOfMeasure;
 	}
 	
 	public Long getId() {
@@ -57,6 +67,14 @@ public class RawMaterial {
 	
 	public List<ProductRawMaterial> getProductRawMaterials() { 
 		 return productRawMaterials; 
+	}
+	
+	public MeasurementUnit getMeasurementUnit() {
+		return unitOfMeasure;
+	}
+	
+	public void setMeasurementUnit(MeasurementUnit u) {
+		this.unitOfMeasure = u;
 	}
 
 }

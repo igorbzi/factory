@@ -10,5 +10,5 @@ import java.util.List;
 public record ProductRequestDTO(
 	    @NotBlank String name,
 	    @NotNull @Positive BigDecimal price,
-	    List<ProductRawMaterialRequestDTO> rawMaterials
+	    @NotNull List<ProductRawMaterialRequestDTO> rawMaterials
 ) {}
