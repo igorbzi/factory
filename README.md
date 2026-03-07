@@ -60,12 +60,27 @@ CREATE DATABASE factory;
 
 ---
 
-## 🚀 Running the Backend
+
+### Option 1 — Terminal
 
 ```bash
-cd backend
+cd factory-api
 mvn spring-boot:run
 ```
+
+### Option 2 — IntelliJ IDEA
+
+1. Open IntelliJ and select **File → Open** and choose the `factory-api` folder
+2. Wait for Maven to download the dependencies
+3. Locate the main class `FactoryApplication.java` in `src/main/java/com/projedata/factory`
+4. Click the ▶ green button next to the class declaration, or press `Shift + F10`
+
+### Option 3 — Eclipse / Spring Tools Suite (STS)
+
+1. Select **File → Import → Existing Maven Projects**
+2. Select the `factory-api` folder and click **Finish**
+3. Wait for Maven to download the dependencies
+4. Right-click `FactoryApplication.java` → **Run As → Spring Boot App**
 
 API will be available at: `http://localhost:8080`
 
@@ -89,7 +104,7 @@ spring.jpa.show-sql=true
 ## 🖥️ Running the Frontend
 
 ```bash
-cd frontend
+cd factory-frontend
 npm install
 npm run dev
 ```
@@ -127,29 +142,48 @@ App will be available at: `http://localhost:5173`
 
 ## 🧪 Running Tests
 
+### Option 1 — Terminal
 ```bash
-cd backend
+cd factory-api
 mvn test
 ```
 
+### Option 2 — IntelliJ IDEA
+
+1. Right-click the `test` folder in `src/test/java`
+2. Select **Run 'All Tests'**
+
+Or run a specific test class:
+1. Open `ProductionOptimizerServiceTest.java`
+2. Click the ▶ green button next to the class declaration, or press `Shift + F10`
+
+### Option 3 — Eclipse / Spring Tools Suite (STS)
+
+1. Right-click the `src/test/java` folder
+2. Select **Run As → JUnit Test**
+
+Or run a specific test class:
+1. Right-click `ProductionOptimizerServiceTest.java`
+2. Select **Run As → JUnit Test**
 ---
 
 ## 📁 Project Structure
 
 ```
-factory-optimizer/
-├── backend/
+projedata/
+├── factory-api/
 │   └── src/
-│       ├── main/java/com/factory/
+│       ├── main/java/com/projedata/factory/
 │       │   ├── config/
 │       │   ├── controller/
 │       │   ├── dto/
 │       │   ├── entity/
+│       │   ├── enumerators/
 │       │   ├── exception/
 │       │   ├── repository/
 │       │   └── service/
 │       └── test/
-└── frontend/
+└── factory-frontend/
     └── src/
         ├── components/
         ├── router/
